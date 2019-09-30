@@ -6,7 +6,11 @@ As a lazy and shiftless person, I find it difficult to plan, shop for, and prepa
 
 ## API
 
-[BigOven](http://api2.bigoven.com/)
+To be determined between:
+
+[Edamam] (https://developer.edamam.com/edamam-recipe-api)  
+[TheMealDB](https://www.themealdb.com/api.php)  
+[Spoontacular](https://spoonacular.com/food-api)
 
 ## MVP Features
 - Customizable Meal Plans
