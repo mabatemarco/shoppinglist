@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato|Oswald&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script defer src="js/recipes.js"></script>
+</head>
+
+<body>
+  <header class='recipeheader'>
+  </header>
+  <nav class = "recipenav">
+    <img src="images/list.jpg" alt="list">
+    <a href="index.html">Home</a>
+    <img src="images/bag.png" alt="bag">
+    <a href="recipes.html">Recipes</a>
+    <img src="images/meal.jpg" alt="meal">
+  </nav>
+  <main>
+    <div class="selection">
+      <div class="left">
+        <p>Type of dish</p>
+        <select id="dish">
+          <option value="main%20dish">Main Dish</option>
+          <option value="side%20dish">Side Dish</option>
+          <option value="desserts">Dessert</option>
+        </select>
+        <p>Ingredients to Include</p>
+        <input type="text" placeholder="Enter ingredients you want here, separated by commas" id="iIngredients">
+        <p>Ingredients to Exclude</p>
+        <input type="text" placeholder="Enter ingredients you dont want here, separated by commas" id="eIngredients">
+      </div>
+      <div class="right">
+        <p>Cuisine<small> (Leave blank for a mix)</small></p>
+        <select id="cuisine">
+          <option value=""></option>
+          <option value="African">African</option>
+          <option value="American">American</option>
+          <option value="Asian">Asian</option>
+          <option value="Cajun">Cajun</option>
+          <option value="Caribbean">Caribbean</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Eastern European">Eastern European</option>
+          <option value="French">French</option>
+          <option value="Indian">Indian</option>
+          <option value="Italian">Italian</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Jewish">Jewish</option>
+          <option value="Mediterranean">Mediterranean</option>
+          <option value="Mexican">Mexican</option>
+          <option value="Middle Eastern">Middle Eastern</option>
+          <option value="Russian">Russian</option>
+          <option value="Tex-Mex">Tex-Mex</option>
+          <option value="Thai">Thai</option>
+        </select>
+        <p>Health and Dietary Retrictions</p>
+        <div class="checkbox">
+          <div class="pair">
+            <p>Gluten Free</p>
+            <input type="checkbox" id="gluten" value="gluten">
+          </div>
+          <div class="pair">
+            <p>Nut Free</p>
+            <input type="checkbox" id="nut" value="nut">
+          </div>
+          <div class="pair">
+            <p>Shellfish Free</p>
+            <input type="checkbox" id="shellfish" value="shellfish">
+          </div>
+          <div class="pair">
+            <p>Vegan</p>
+            <input type="checkbox" id="vegan" value="vegan">
+          </div>
+          <div class="pair">
+            <p>Vegetarian</p>
+            <input type="checkbox" id="vegetarian" value="vegetarian">
+          </div>
+        </div>
+        <button type="button" id='submit'>Get Recipes</button>
+      </div>
+    </div>
+    <div class="choices">
+
+    </div>
+    <div class="results">
+      <div class="recipes">
+
+      </div>
+      <div class="list">
+
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
