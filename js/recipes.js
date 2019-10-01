@@ -14,6 +14,8 @@ var ingredients = [];
 submit.addEventListener('click', search);
 
 async function search() {
+  submit.style.display = 'none'
+  document.querySelector('.loader').style.display = 'block'
   let category = categoryInput.options[categoryInput.selectedIndex].value;
   let iIngredients = iIngredientsInput.value;
   let eIngredients = eIngredientsInput.value;
@@ -90,7 +92,7 @@ function nextPage() {
 }
 
 function finalList() {
-  instructions.innerHTML = "Enjoy"
+  instructions.innerHTML = "Enjoy";
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
   idArray.forEach(async function (current) {
