@@ -1,6 +1,7 @@
 let apiKey = '6H134A6LKGCYegNQSebrFu36RM0uI221';
 let random = 'https://api2.bigoven.com/recipes/top25random?';
-let specific = 'https://api2.bigoven.com/recipes/';
+let specific = 'https://api2.bigoven.com/recipe/';
+let instructions = document.querySelector('.instructions');
 let categoryInput = document.querySelector('#dish');
 let iIngredientsInput = document.querySelector('#iIngredients');
 let eIngredientsInput = document.querySelector('#eIngredients');
@@ -8,6 +9,7 @@ let cuisineInput = document.querySelector('#cuisine');
 let boxesInput = document.querySelectorAll('input[type=checkbox]');
 let submit = document.querySelector('#submit');
 let idArray = [];
+var ingredients = [];
 
 submit.addEventListener('click', search);
 
@@ -49,18 +51,16 @@ async function search() {
   if (boxes.includes("vegan")) {
     random = `${random}&vgn=1`
   };
-  console.log(random)
-  let response = await axios.get(`${random}&api_key=${apiKey}`);
-  console.log(response)
+  let response = await axios.get(`${random}&photos=true&api_key=${apiKey}`);
   populate(response.data.Results)
 }
 
 function populate(data) {
-  console.log(data)
   document.querySelector('.selection').style.display = "none";
   document.querySelector('.choices').style.display = "flex";
   document.querySelector('.choices').style.flexWrap = "wrap";
   document.querySelector('.choices').style.justifyContent = "space-around";
+  instructions.innerHTML = "Pick Your Meals"
   for (let i = 0; i < 12; i++) {
     let div = document.createElement('div');
     div.classList.add('choice');
@@ -70,7 +70,7 @@ function populate(data) {
   }
   let finalize = document.createElement('button');
   finalize.innerHTML = "Confirm Choices";
-  finalize.addEventListener('click', finalLists);
+  finalize.addEventListener('click', nextPage);
   document.querySelector('.choices').appendChild(finalize);
 }
 
@@ -82,15 +82,51 @@ function select(div, id) {
   } else {
     idArray.push(id);
   }
-
 }
 
-function finalLists() {
+function nextPage() {
+  finalList();
+  shopping();
+}
+
+function finalList() {
+  instructions.innerHTML = "Enjoy"
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
-  document.querySelector('.results').style.justifyContent = "space-around";
   idArray.forEach(async function (current) {
-    let response = await axios.get(`${specific}${current}?api_key=${apiKey}`);
-    console.log(response)
+    let response = await axios.get(`${specific}${current}?api_key=${apiKey}`)
+    let div = document.createElement('div');
+    div.classList.add('finalrecipe');
+    div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View the Recipe</a>`;
+    document.querySelector('.finalrecipes').appendChild(div);
+    response.data.Ingredients.forEach(function (ing) {
+      let obj = {
+        name: ing.Name,
+        amount: ing.Quantity,
+        unit: ing.Unit
+      };
+      ingredients.push(obj);
+      console.log('hi')
+    })
   })
-}
+};
+
+function shopping() {
+  let shoppingList = [];
+  let found = true;
+  console.log(ingredients);
+  console.log(ingredients[0]);
+  for (let n = 0; n < ingredients.length; n++) {
+    found = false
+    for (i = 0; i < shoppingList.length; i++) {
+      if (ingredients[n].name === shoppingList[i].name) {
+        shoppingList[i].amount += ingredients[n].amount;
+        found = true;
+      };
+      if (found === false) {
+        shoppingList.push(ingredients[n])
+      };
+    };
+  };
+  console.log(shoppingList)
+};
