@@ -72,7 +72,7 @@ function populate(data) {
   }
   let finalize = document.createElement('button');
   finalize.innerHTML = "Confirm Choices";
-  finalize.addEventListener('click', nextPage);
+  finalize.addEventListener('click', finalList);
   document.querySelector('.choices').appendChild(finalize);
 }
 
@@ -86,17 +86,13 @@ function select(div, id) {
   }
 }
 
-function nextPage() {
-  finalList();
-  shopping();
-}
 
-function finalList() {
+async function finalList() {
   instructions.innerHTML = "Enjoy";
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
-  idArray.forEach(async function (current) {
-    let response = await axios.get(`${specific}${current}?api_key=${apiKey}`)
+  for (let i = 0; i < idArray.length; i++) {
+    let response = await axios.get(`${specific}${idArray[i]}?api_key=${apiKey}`)
     let div = document.createElement('div');
     div.classList.add('finalrecipe');
     div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View the Recipe</a>`;
@@ -108,16 +104,16 @@ function finalList() {
         unit: ing.Unit
       };
       ingredients.push(obj);
-      console.log('hi')
     })
-  })
+    if (i === (idArray.length - 1)) {
+      shopping();
+    }
+  }
 };
 
 function shopping() {
   let shoppingList = [];
   let found = true;
-  console.log(ingredients);
-  console.log(ingredients[0]);
   for (let n = 0; n < ingredients.length; n++) {
     found = false
     for (i = 0; i < shoppingList.length; i++) {
