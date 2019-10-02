@@ -97,6 +97,7 @@ function select(div, id) {
 }
 
 async function finalList() {
+  let found;
   instructions.innerHTML = "Enjoy";
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
@@ -107,62 +108,55 @@ async function finalList() {
     div.classList.add('finalrecipe');
     div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View Recipe</a>`;
     document.querySelector('.finalrecipes').appendChild(div);
+    console.log(response.data.Ingredients)
     response.data.Ingredients.forEach(function (ing) {
       let obj = {
         name: ing.Name,
         amount: ing.Quantity,
         unit: ing.Unit
       };
-      ingredients.push(obj);
-    })
-    if (i === (idArray.length - 1)) {
-      shopping();
-    }
-  }
-};
-
-function shopping() {
-  let shoppingList = [];
-  let found;
-  for (let n = 0; n < ingredients.length; n++) {
-    found = false;
-    if (n === 0) {
-      shoppingList.push(ingredients[n]);
-    } else {
-      for (i = 0; i < shoppingList.length; i++) {
-        if (ingredients[n].name === shoppingList[i].name) {
-          shoppingList[i].amount += ingredients[n].amount;
-          found = true;
+      if (ingredients.length === 0) {
+        ingredients.push(obj);
+      } else {
+        found = false;
+        for (n = 0; n < ingredients.length; n++) {
+          if (obj.name === ingredients[n].name && obj.amount === ingredients[n].amount) {
+            ingredients[n].amount += obj.amount;
+            found = true;
+          };
         };
+        if (found === false) {
+          ingredients.push(obj)
+        }
       };
-      if (found === false) {
-        shoppingList.push(ingredients[n])
-      }
-    };
-  };
+    })
+  }
+  document.querySelector('#date').innerHTML += ` (${curDay()})`
   let toBuy = document.querySelector('#toBuy');
-  shoppingList.forEach(function (food) {
+  ingredients.forEach(function (food) {
     let item = document.createElement('li');
     item.innerHTML = `${food.amount} ${food.unit} ${food.name}`;
     toBuy.appendChild(item);
   });
   let saveButton = document.createElement('button');
   saveButton.innerHTML = "Save as PDF";
-  saveButton.addEventListener('click', function () { save(shoppingList) });
+  saveButton.addEventListener('click', function () { save(ingredients) });
   toBuy.appendChild(saveButton);
 };
 
-function save(shoppingList) {
+
+
+function save(ingredients) {
   let listItems = ' \n \n ';
-  shoppingList.forEach(function (food) {
+  ingredients.forEach(function (food) {
     listItems += `${food.amount} ${food.unit} ${food.name} \n `
   })
-  let listText = 'Shopping List ' + curDay() + listItems
+  let listText = 'Shopping List (' + curDay() + ')' + listItems
   console.log(listText)
 
   let doc = new jsPDF();
   doc.setFontSize(10);
   doc.text(listText, 20, 20);
-  let fileName = `shoppinglist${curDay()}.pdf`;
+  let fileName = `ingredients${curDay()}.pdf`;
   doc.save(fileName);
 }
