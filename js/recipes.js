@@ -13,6 +13,16 @@ var ingredients = [];
 
 submit.addEventListener('click', search);
 
+let curDay = function () {
+  today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  let yyyy = today.getFullYear();
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+  return (`${mm}-${dd}-${yyyy}`);
+};
+
 async function search() {
   submit.style.display = 'none'
   document.querySelector('.loader').style.display = 'block'
@@ -134,5 +144,24 @@ function shopping() {
     let item = document.createElement('li');
     item.innerHTML = `${food.amount} ${food.unit} ${food.name}`;
     toBuy.appendChild(item);
-  })
+  });
+  let saveButton = document.createElement('button');
+  saveButton.innerHTML = "Save as PDF";
+  saveButton.addEventListener('click', function () { save(shoppingList) });
+  toBuy.appendChild(saveButton);
 };
+
+function save(shoppingList) {
+  let listItems = ' \n \n ';
+  shoppingList.forEach(function (food) {
+    listItems += `${food.amount} ${food.unit} ${food.name} \n `
+  })
+  let listText = 'Shopping List ' + curDay() + listItems
+  console.log(listText)
+
+  let doc = new jsPDF();
+  doc.setFontSize(10);
+  doc.text(listText, 20, 20);
+  let fileName = `shoppinglist${curDay()}.pdf`;
+  doc.save(fileName);
+}
