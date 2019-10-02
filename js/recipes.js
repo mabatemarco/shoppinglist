@@ -86,7 +86,6 @@ function select(div, id) {
   }
 }
 
-
 async function finalList() {
   instructions.innerHTML = "Enjoy";
   document.querySelector('.choices').style.display = "none";
@@ -113,18 +112,27 @@ async function finalList() {
 
 function shopping() {
   let shoppingList = [];
-  let found = true;
+  let found;
   for (let n = 0; n < ingredients.length; n++) {
-    found = false
-    for (i = 0; i < shoppingList.length; i++) {
-      if (ingredients[n].name === shoppingList[i].name) {
-        shoppingList[i].amount += ingredients[n].amount;
-        found = true;
+    found = false;
+    if (n === 0) {
+      shoppingList.push(ingredients[n]);
+    } else {
+      for (i = 0; i < shoppingList.length; i++) {
+        if (ingredients[n].name === shoppingList[i].name) {
+          shoppingList[i].amount += ingredients[n].amount;
+          found = true;
+        };
       };
       if (found === false) {
         shoppingList.push(ingredients[n])
-      };
+      }
     };
   };
-  console.log(shoppingList)
+  let toBuy = document.querySelector('#toBuy');
+  shoppingList.forEach(function (food) {
+    let item = document.createElement('li');
+    item.innerHTML = `${food.amount} ${food.unit} ${food.name}`;
+    toBuy.appendChild(item);
+  })
 };
