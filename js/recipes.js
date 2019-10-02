@@ -100,11 +100,12 @@ async function finalList() {
   instructions.innerHTML = "Enjoy";
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
+  document.querySelector('.results').style.flexWrap = "wrap"
   for (let i = 0; i < idArray.length; i++) {
     let response = await axios.get(`${specific}${idArray[i]}?api_key=${apiKey}`)
     let div = document.createElement('div');
     div.classList.add('finalrecipe');
-    div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View the Recipe</a>`;
+    div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View Recipe</a>`;
     document.querySelector('.finalrecipes').appendChild(div);
     response.data.Ingredients.forEach(function (ing) {
       let obj = {

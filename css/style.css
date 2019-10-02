@@ -37,6 +37,7 @@ header h1{
   margin: auto;
   padding:0;
   font-size:3em;
+  text-align:center;
 }
 
 nav{
@@ -64,6 +65,7 @@ nav a{
 }
 
 main{
+  width:100%;
   display:flex;
   justify-content: center;
 }
@@ -73,11 +75,12 @@ main{
   text-align: right;
 }
 
-main img{
+.shopper{
   height:600px;
   width:35%;
   object-fit: cover;
   object-position: 30% 0;
+  order:2;
 }
 
 main h2{
@@ -194,7 +197,8 @@ select{
 }
 
 #submit{
-  margin: 3em 0 0 4em;
+  display:block;
+  margin: 1em auto 0 auto;
 }
 
 small{
@@ -266,9 +270,9 @@ small{
 .finalrecipe a{
   width: 20%;
   font-size:1em;
-  height:80px;
+  height:180px;
   display:block;
-  margin: 2em 0 0 0;
+  margin: auto 0;
   font-family: Lato, sans-serif;
 
 }
@@ -287,6 +291,7 @@ small{
   width: 80px;
   height: 80px;
   animation: spin 2s linear infinite;
+  margin: 0 auto;
   display:none;
 }
 
@@ -309,12 +314,15 @@ li{
   body{
     font-size:12px;
   }
-  #submit{
-    margin: 3em 0 0 2em;
-  }
 
   .selection input {
-    width:80%
+    width:80%;
+    box-sizing: border-box;
+    border: 1px solid black;
+  }
+
+  select{
+    border:1px solid black;
   }
 
   .pair input{
@@ -325,5 +333,87 @@ li{
   }
   .choice{
     width:48%;
+  }
+
+  .list button{
+    margin: 0 auto;
+  }
+}
+
+@media (max-width:520px){
+  nav img{
+    display:none;
+  }
+
+  main{
+    display:block;
+  }
+
+  .shopper{
+    width:100%;
+    height:100px;
+  }
+
+  .about{
+    width:70%;
+    margin: 0 auto;
+  }
+
+  .selection{
+    display:block;
+  }
+
+  .left,.right{
+    width:80%;
+  }
+
+  .pair p{
+    margin: 0 0 0 1.5em;
+  }
+
+  .pair input{
+    left: 120px;
+  }
+
+  .choice{
+  height: 200px;
+  }
+
+  .choice img{
+    height:100px;
+    top:30px;
+    left:3px;
+  }
+
+  .choice p{
+    top:170px;
+  }
+
+  .finalrecipes{
+    width:80%;
+  }
+
+  .finalrecipe{
+    height:125px;
+  }
+
+  .finalrecipe img{
+    height:100px;
+  }
+
+  .list{
+    width:80%;
+  }
+
+  .choice h2, .finalrecipe h2{
+    font-size: 1em;
+  }
+
+  .finalrecipe h2{
+    height:100px;
+  }
+
+  .finalrecipe a{
+    height:90px
   }
 }
