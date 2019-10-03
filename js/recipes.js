@@ -102,6 +102,7 @@ async function finalList() {
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
   document.querySelector('.results').style.flexWrap = "wrap"
+  document.querySelector('#date').innerHTML += ` (${curDay()})`
   for (let i = 0; i < idArray.length; i++) {
     let response = await axios.get(`${specific}${idArray[i]}?api_key=${apiKey}`)
     let div = document.createElement('div');
@@ -131,7 +132,14 @@ async function finalList() {
       };
     })
   }
-  document.querySelector('#date').innerHTML += ` (${curDay()})`
+  ingredients.sort(function (a, b) {
+    var keyA = a.name;
+    var keyB = b.name;
+    if (keyA < keyB) return -1;
+    if (keyA > keyB) return 1;
+    return 0;
+  });
+  document.querySelector('#listLoad').style.display = "none";
   let toBuy = document.querySelector('#toBuy');
   ingredients.forEach(function (food) {
     let item = document.createElement('li');

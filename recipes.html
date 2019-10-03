@@ -35,9 +35,9 @@
           <option value="side%20dish">Side Dish</option>
           <option value="desserts">Dessert</option>
         </select>
-        <p>Ingredients to Include</p>
+        <p>Ingredients to Include <small> (Optional)</small></p>
         <input type="text" placeholder="Enter ingredients you want here, separated by commas" id="iIngredients">
-        <p>Ingredients to Exclude</p>
+        <p>Ingredients to Exclude <small> (Optional)</small></p>
         <input type="text" placeholder="Enter ingredients you dont want here, separated by commas" id="eIngredients">
       </div>
       <div class="right">
@@ -63,7 +63,7 @@
           <option value="Tex-Mex">Tex-Mex</option>
           <option value="Thai">Thai</option>
         </select>
-        <p>Health and Dietary Retrictions</p>
+        <p>Health and Dietary Retrictions <small> (Optional)</small></p>
         <div class="checkbox">
           <div class="pair">
             <p>Gluten Free</p>
@@ -99,6 +99,7 @@
       </div>
       <div class="list">
         <h2 id="date">Shopping List</h2>
+        <div id="listLoad" class="loader"></div>
         <ul id="toBuy"></ul>
       </div>
     </div>
