@@ -51,12 +51,6 @@ nav{
   width:100%
 }
 
-nav img{
-  height:40px;
-  width:auto;
-  margin: auto 0;
-}
-
 nav a{
   font-size: 2em;
   text-decoration: none;
@@ -160,10 +154,12 @@ main button{
 
 .selection input{
   display:block;
-  width:90%;
+  width:70%;
   margin: .5em 0 0 auto;
   font-size: .6em;
   height:20px;
+  box-sizing: border-box;
+  border: 1px solid #078C26;
 }
 
 select{
@@ -172,12 +168,13 @@ select{
   width:70%;
   margin: .5em 0 0 auto;
   font-family: Oswald, sans-serif;
+  border: 1px solid #078C26;
 }
 
 .pair{
   width: 100%;
   position:relative;
-  margin: 0 0 .2em 0;
+  margin: 0 0 .2em 30%;
 }
 
 .pair p{
@@ -198,7 +195,7 @@ select{
 
 #submit{
   display:block;
-  margin: 1em auto 0 auto;
+  margin: 2em auto 0 auto;
 }
 
 small{
@@ -322,12 +319,16 @@ li{
   .selection input {
     width:80%;
     box-sizing: border-box;
-    border: 1px solid black;
+    border: 1px solid #078C26;
   }
 
   select{
-    border:1px solid black;
+    border:1px solid #078C26;
     width:80%
+  }
+
+  .pair{
+    margin: 0 0 0.2em 20%;
   }
 
   .pair input{
@@ -335,6 +336,7 @@ li{
     height:10px;
     width:10px;
     top: 3px;
+    border: 1px solid #078C26;
   }
   .choice{
     width:48%;
@@ -346,9 +348,6 @@ li{
 }
 
 @media (max-width:520px){
-  nav img{
-    display:none;
-  }
 
   main{
     display:block;
@@ -370,10 +369,6 @@ li{
 
   .left,.right{
     width:80%;
-  }
-
-  .pair p{
-    margin: 0 0 0 1.5em;
   }
 
   .pair input{

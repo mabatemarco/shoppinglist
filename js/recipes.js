@@ -98,7 +98,7 @@ function select(div, id) {
 
 async function finalList() {
   let found;
-  instructions.innerHTML = "Enjoy";
+  instructions.innerHTML = "Enjoy!";
   document.querySelector('.choices').style.display = "none";
   document.querySelector('.results').style.display = "flex";
   document.querySelector('.results').style.flexWrap = "wrap"
