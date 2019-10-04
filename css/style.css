@@ -89,6 +89,10 @@ main button{
   background-color: #078C26;
 }
 
+main a{
+  text-decoration: none;
+}
+
 .choices{
   display:flex;
   flex-wrap:wrap;
