@@ -43,7 +43,7 @@ async function search() {
   };
   if (eIngredients) {
     eIngredients = eIngredients.replace(' ', '%20').replace(', ', '%2c%20');
-    preferences = `${preferences}&exclude_ing=${eIngredients}`;
+    restrictions = `${restrictions}&exclude_ing=${eIngredients}`;
   };
   if (cuisine) {
     preferences = `${preferences}&cuisine=${cuisine}`
