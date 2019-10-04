@@ -26,12 +26,6 @@
   <main>
     <div class="selection">
       <div class="left">
-        <p>Type of dish</p>
-        <select id="dish">
-          <option value="main%20dish">Main Dish</option>
-          <option value="side%20dish">Side Dish</option>
-          <option value="desserts">Dessert</option>
-        </select>
         <p>Ingredients to Include <small> (Optional)</small></p>
         <input type="text" placeholder="Enter ingredients you want here, separated by commas" id="iIngredients">
         <p>Ingredients to Exclude <small> (Optional)</small></p>
@@ -87,7 +81,15 @@
         <button type="button" id='submit'>Get Recipes</button>
       </div>
     </div>
-    <div class="choices">
+    <div class="allMeals">
+      <div class="choices" id="mainChoices">
+
+      </div>
+      <div class="choices" id="sideChoices">
+
+      </div>
+      <div class="choices" id="dessertChoices">
+      </div>
 
     </div>
     <div class="results">

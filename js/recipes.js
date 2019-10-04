@@ -2,7 +2,6 @@ let apiKey = '6H134A6LKGCYegNQSebrFu36RM0uI221';
 let random = 'https://api2.bigoven.com/recipes/top25random?';
 let specific = 'https://api2.bigoven.com/recipe/';
 let instructions = document.querySelector('.instructions');
-let categoryInput = document.querySelector('#dish');
 let iIngredientsInput = document.querySelector('#iIngredients');
 let eIngredientsInput = document.querySelector('#eIngredients');
 let cuisineInput = document.querySelector('#cuisine');
@@ -10,6 +9,7 @@ let boxesInput = document.querySelectorAll('input[type=checkbox]');
 let submit = document.querySelector('#submit');
 let idArray = [];
 var ingredients = [];
+let body = document.querySelector('.allMeals')
 
 submit.addEventListener('click', search);
 
@@ -26,7 +26,6 @@ let curDay = function () {
 async function search() {
   submit.style.display = 'none'
   document.querySelector('.loader').style.display = 'block'
-  let category = categoryInput.options[categoryInput.selectedIndex].value;
   let iIngredients = iIngredientsInput.value;
   let eIngredients = eIngredientsInput.value;
   let cuisine = cuisineInput.options[cuisineInput.selectedIndex].value;
@@ -36,55 +35,77 @@ async function search() {
       boxes.push(boxesInput[i].value)
     }
   };
-  random = `${random}include_primarycat=${category}`;
+  let preferences = '';
   if (iIngredients) {
     iIngredients = iIngredients.replace(' ', '%20').replace(', ', '%2c%20');
-    random = `${random}&include_ing=${iIngredients}`;
+    preferences = `${preferences}&include_ing=${iIngredients}`;
   };
   if (eIngredients) {
     eIngredients = eIngredients.replace(' ', '%20').replace(', ', '%2c%20');
-    random = `${random}&exclude_ing=${eIngredients}`;
+    preferences = `${preferences}&exclude_ing=${eIngredients}`;
   };
   if (cuisine) {
-    random = `${random}&cuisine=${cuisine}`
+    preferences = `${preferences}&cuisine=${cuisine}`
   };
   if (boxes.includes("gluten")) {
-    random = `${random}&glf=1`
+    preferences = `${preferences}&glf=1`
   };
   if (boxes.includes("nut")) {
-    random = `${random}&tnf=1&ntf=1`
+    preferences = `${preferences}&tnf=1&ntf=1`
   };
   if (boxes.includes("shellfish")) {
-    random = `${random}&slf=1`
+    preferences = `${preferences}&slf=1`
   };
   if (boxes.includes("vegetarian")) {
-    random = `${random}&vtn=1`
+    preferences = `${preferences}&vtn=1`
   };
   if (boxes.includes("vegan")) {
-    random = `${random}&vgn=1`
+    preferences = `${preferences}&vgn=1`
   };
-  let response = await axios.get(`${random}&photos=true&api_key=${apiKey}`);
-  populate(response.data.Results)
-  console.log(response)
+  let main = await axios.get(`${random}include_primarycat=maindish${preferences}&photos=true&api_key=${apiKey}`);
+  let side = await axios.get(`${random}include_primarycat=sidedish${preferences}&photos=true&api_key=${apiKey}`);
+  let dessert = await axios.get(`${random}include_primarycat=desserts${preferences}&photos=true&api_key=${apiKey}`);
+  populate(main.data.Results, side.data.Results, dessert.data.Results)
 }
 
-function populate(data) {
+function populate(main, side, dessert) {
   document.querySelector('.selection').style.display = "none";
-  document.querySelector('.choices').style.display = "flex";
-  document.querySelector('.choices').style.flexWrap = "wrap";
-  document.querySelector('.choices').style.justifyContent = "space-around";
-  instructions.innerHTML = "Pick Your Meals"
-  for (let i = 0; i < 12; i++) {
+  document.querySelector('.allMeals').style.display = "block"
+  instructions.innerHTML = "Pick Your Meals";
+  let mainh3 = document.createElement('h3');
+  mainh3.innerHTML = 'Main Courses';
+  body.insertBefore(mainh3, body.childNodes[0]);
+  let sideh3 = document.createElement('h3');
+  sideh3.innerHTML = 'Side Dishes';
+  body.insertBefore(sideh3, body.childNodes[3]);
+  let desserth3 = document.createElement('h3');
+  desserth3.innerHTML = 'Desserts';
+  body.insertBefore(desserth3, body.childNodes[6]);
+  for (let i = 0; i < 8; i++) {
     let div = document.createElement('div');
     div.classList.add('choice');
-    div.innerHTML = `<h2>${data[i].Title}</h2><img src = ${data[i].PhotoUrl}><p>Servings - ${data[i].Servings}</p>`;
-    div.addEventListener('click', function () { select(div, data[i].RecipeID) });
-    document.querySelector('.choices').appendChild(div);
+    div.innerHTML = `<h2>${main[i].Title}</h2><img src = ${main[i].PhotoUrl}><p>Servings - ${main[i].Servings}</p>`;
+    div.addEventListener('click', function () { select(div, main[i].RecipeID) });
+    document.querySelector('#mainChoices').appendChild(div);
+  }
+  for (let i = 0; i < 8; i++) {
+    let div = document.createElement('div');
+    div.classList.add('choice');
+    div.innerHTML = `<h2>${side[i].Title}</h2><img src = ${side[i].PhotoUrl}><p>Servings - ${side[i].Servings}</p>`;
+    div.addEventListener('click', function () { select(div, side[i].RecipeID) });
+    document.querySelector('#sideChoices').appendChild(div);
+  }
+  for (let i = 0; i < 8; i++) {
+    let div = document.createElement('div');
+    div.classList.add('choice');
+    div.innerHTML = `<h2>${dessert[i].Title}</h2><img src = ${dessert[i].PhotoUrl}><p>Servings - ${dessert[i].Servings}</p>`;
+    div.addEventListener('click', function () { select(div, dessert[i].RecipeID) });
+    document.querySelector('#dessertChoices').appendChild(div);
   }
   let finalize = document.createElement('button');
   finalize.innerHTML = "Confirm Choices";
   finalize.addEventListener('click', finalList);
-  document.querySelector('.choices').appendChild(finalize);
+  document.querySelector('.allMeals').appendChild(finalize);
 }
 
 function select(div, id) {
@@ -100,7 +121,7 @@ function select(div, id) {
 async function finalList() {
   let found;
   instructions.innerHTML = "Enjoy!";
-  document.querySelector('.choices').style.display = "none";
+  body.style.display = "none";
   document.querySelector('.results').style.display = "flex";
   document.querySelector('.results').style.flexWrap = "wrap"
   document.querySelector('#date').innerHTML += ` (${curDay()})`
