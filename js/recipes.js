@@ -36,6 +36,7 @@ async function search() {
     }
   };
   let preferences = '';
+  let restrictions = '';
   if (iIngredients) {
     iIngredients = iIngredients.replace(' ', '%20').replace(', ', '%2c%20');
     preferences = `${preferences}&include_ing=${iIngredients}`;
@@ -48,23 +49,23 @@ async function search() {
     preferences = `${preferences}&cuisine=${cuisine}`
   };
   if (boxes.includes("gluten")) {
-    preferences = `${preferences}&glf=1`
+    restrictions = `${restrictions}&glf=1`
   };
   if (boxes.includes("nut")) {
-    preferences = `${preferences}&tnf=1&ntf=1`
+    restrictions = `${restrictions}&tnf=1&ntf=1`
   };
   if (boxes.includes("shellfish")) {
-    preferences = `${preferences}&slf=1`
+    restrictions = `${restrictions}&slf=1`
   };
   if (boxes.includes("vegetarian")) {
-    preferences = `${preferences}&vtn=1`
+    restrictions = `${restrictions}&vtn=1`
   };
   if (boxes.includes("vegan")) {
-    preferences = `${preferences}&vgn=1`
+    restrictions = `${restrictions}&vgn=1`
   };
-  let main = await axios.get(`${random}include_primarycat=maindish${preferences}&photos=true&api_key=${apiKey}`);
-  let side = await axios.get(`${random}include_primarycat=sidedish${preferences}&photos=true&api_key=${apiKey}`);
-  let dessert = await axios.get(`${random}include_primarycat=desserts${preferences}&photos=true&api_key=${apiKey}`);
+  let main = await axios.get(`${random}include_primarycat=maindish${preferences}${restrictions}&photos=true&api_key=${apiKey}`);
+  let side = await axios.get(`${random}include_primarycat=sidedish${restrictions}&photos=true&api_key=${apiKey}`);
+  let dessert = await axios.get(`${random}include_primarycat=desserts${restrictions}&photos=true&api_key=${apiKey}`);
   populate(main.data.Results, side.data.Results, dessert.data.Results)
 }
 
@@ -81,27 +82,57 @@ function populate(main, side, dessert) {
   let desserth3 = document.createElement('h3');
   desserth3.innerHTML = 'Desserts';
   body.insertBefore(desserth3, body.childNodes[6]);
-  for (let i = 0; i < 8; i++) {
-    let div = document.createElement('div');
-    div.classList.add('choice');
-    div.innerHTML = `<h2>${main[i].Title}</h2><img src = ${main[i].PhotoUrl}><p>Servings - ${main[i].Servings}</p>`;
-    div.addEventListener('click', function () { select(div, main[i].RecipeID) });
-    document.querySelector('#mainChoices').appendChild(div);
-  }
-  for (let i = 0; i < 8; i++) {
-    let div = document.createElement('div');
-    div.classList.add('choice');
-    div.innerHTML = `<h2>${side[i].Title}</h2><img src = ${side[i].PhotoUrl}><p>Servings - ${side[i].Servings}</p>`;
-    div.addEventListener('click', function () { select(div, side[i].RecipeID) });
-    document.querySelector('#sideChoices').appendChild(div);
-  }
-  for (let i = 0; i < 8; i++) {
-    let div = document.createElement('div');
-    div.classList.add('choice');
-    div.innerHTML = `<h2>${dessert[i].Title}</h2><img src = ${dessert[i].PhotoUrl}><p>Servings - ${dessert[i].Servings}</p>`;
-    div.addEventListener('click', function () { select(div, dessert[i].RecipeID) });
-    document.querySelector('#dessertChoices').appendChild(div);
-  }
+  if (main.length < 8) {
+    for (let i = 0; i < main.length; i++) {
+      let div = document.createElement('div');
+      div.classList.add('choice');
+      div.innerHTML = `<h2>${main[i].Title}</h2><img src = ${main[i].PhotoUrl}><p>Servings - ${main[i].Servings}</p>`;
+      div.addEventListener('click', function () { select(div, main[i].RecipeID) });
+      document.querySelector('#mainChoices').appendChild(div);
+    }
+  } else {
+    for (let i = 0; i < 8; i++) {
+      let div = document.createElement('div');
+      div.classList.add('choice');
+      div.innerHTML = `<h2>${main[i].Title}</h2><img src = ${main[i].PhotoUrl}><p>Servings - ${main[i].Servings}</p>`;
+      div.addEventListener('click', function () { select(div, main[i].RecipeID) });
+      document.querySelector('#mainChoices').appendChild(div);
+    };
+    if (side.length < 8) {
+      for (let i = 0; i < side.length; i++) {
+        let div = document.createElement('div');
+        div.classList.add('choice');
+        div.innerHTML = `<h2>${side[i].Title}</h2><img src = ${side[i].PhotoUrl}><p>Servings - ${side[i].Servings}</p>`;
+        div.addEventListener('click', function () { select(div, side[i].RecipeID) });
+        document.querySelector('#sideChoices').appendChild(div);
+      }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        let div = document.createElement('div');
+        div.classList.add('choice');
+        div.innerHTML = `<h2>${side[i].Title}</h2><img src = ${side[i].PhotoUrl}><p>Servings - ${side[i].Servings}</p>`;
+        div.addEventListener('click', function () { select(div, side[i].RecipeID) });
+        document.querySelector('#sideChoices').appendChild(div);
+      }
+    };
+    if (dessert.length < 8) {
+      for (let i = 0; i < dessert.length; i++) {
+        let div = document.createElement('div');
+        div.classList.add('choice');
+        div.innerHTML = `<h2>${dessert[i].Title}</h2><img src = ${dessert[i].PhotoUrl}><p>Servings - ${dessert[i].Servings}</p>`;
+        div.addEventListener('click', function () { select(div, dessert[i].RecipeID) });
+        document.querySelector('#dessertChoices').appendChild(div);
+      }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        let div = document.createElement('div');
+        div.classList.add('choice');
+        div.innerHTML = `<h2>${dessert[i].Title}</h2><img src = ${dessert[i].PhotoUrl}><p>Servings - ${dessert[i].Servings}</p>`;
+        div.addEventListener('click', function () { select(div, dessert[i].RecipeID) });
+        document.querySelector('#dessertChoices').appendChild(div);
+      }
+    }
+  };
   let finalize = document.createElement('button');
   finalize.innerHTML = "Confirm Choices";
   finalize.addEventListener('click', finalList);
@@ -179,7 +210,7 @@ async function finalList() {
 
 
 
-function save(ingredients) {
+function save() {
   let listItems = ' \n \n ';
   let listItems2 = ' \n \n ';
   let listItems3 = ' \n \n ';
