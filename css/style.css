@@ -22,21 +22,12 @@ header{
   position:static;
 }
 
-.title{
-  margin:8em;;
-  padding:0;
-  height: 100px;
-  width:500px;
-  display:flex;
-  justify-content: center;
-  align-content: center;
-}
-
 header h1{
   margin: auto;
   padding:0;
-  font-size:5em;
+  font-size:6em;
   text-align:center;
+  font-family: Oswald,sans-serif;
 }
 
 nav{
