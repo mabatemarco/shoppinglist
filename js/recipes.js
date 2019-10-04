@@ -65,6 +65,7 @@ async function search() {
   };
   let response = await axios.get(`${random}&photos=true&api_key=${apiKey}`);
   populate(response.data.Results)
+  console.log(response)
 }
 
 function populate(data) {
