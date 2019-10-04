@@ -110,11 +110,14 @@ async function finalList() {
     div.classList.add('finalrecipe');
     div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View Recipe</a>`;
     document.querySelector('.finalrecipes').appendChild(div);
-    console.log(response.data.Ingredients)
     response.data.Ingredients.forEach(function (ing) {
+      let amt = ing.Quantity.toString();
+      if (amt.length > 4) {
+        amt = parseFloat(amt).toFixed(2);
+      }
       let obj = {
         name: ing.Name,
-        amount: ing.Quantity,
+        amount: amt,
         unit: ing.Unit
       };
       if (ingredients.length === 0) {
