@@ -225,6 +225,16 @@ function save() {
     for (let i = 61; i < 123; i++) {
       listItems2 += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
     };
+  } else if (ingredients.length < 186) {
+    for (let i = 0; i < 61; i++) {
+      listItems += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
+    };
+    for (let i = 61; i < 123; i++) {
+      listItems2 += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
+    };
+    for (let i = 123; i < ingredients.length; i++) {
+      listItems3 += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
+    };
   } else {
     for (let i = 0; i < 61; i++) {
       listItems += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
@@ -235,6 +245,9 @@ function save() {
     for (let i = 123; i < ingredients.length; i++) {
       listItems3 += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
     };
+    for (let i = 185; i < ingredients.length; i++) {
+      listItems4 += `${ingredients[i].amount} ${ingredients[i].unit} ${ingredients[i].name} \n `
+    }
   }
   let page1 = 'Shopping List (' + curDay() + ')' + listItems
   let doc = new jsPDF();
