@@ -64,7 +64,7 @@ async function search() {
     restrictions = `${restrictions}&vgn=1`
   };
   let main = await axios.get(`${random}include_primarycat=maindish${preferences}${restrictions}&photos=true&api_key=${apiKey}`);
-  let side = await axios.get(`${random}include_primarycat=sidedish${restrictions}&photos=true&api_key=${apiKey}`);
+  let side = await axios.get(`${random}include_primarycat=sidedish&cuisine=${cuisine}${restrictions}&photos=true&api_key=${apiKey}`);
   let dessert = await axios.get(`${random}include_primarycat=desserts${restrictions}&photos=true&api_key=${apiKey}`);
   populate(main.data.Results, side.data.Results, dessert.data.Results)
 }
@@ -164,7 +164,7 @@ async function finalList() {
     document.querySelector('.finalrecipes').appendChild(div);
     response.data.Ingredients.forEach(function (ing) {
       let amt = ing.Quantity.toString();
-      if (amt.length > 4) {
+      if (amt.length > 5) {
         amt = parseFloat(amt).toFixed(2);
       }
       let obj = {

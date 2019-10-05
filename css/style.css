@@ -89,6 +89,10 @@ main button{
   background-color: #078C26;
 }
 
+#start{
+  margin: 1em 0 0 67%;
+}
+
 main a{
   text-decoration: none;
 }
