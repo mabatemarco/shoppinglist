@@ -177,7 +177,7 @@ async function finalList() {
       } else {
         found = false;
         for (n = 0; n < ingredients.length; n++) {
-          if (obj.name === ingredients[n].name && obj.amount === ingredients[n].amount) {
+          if (obj.name === ingredients[n].name && obj.unit === ingredients[n].unit) {
             ingredients[n].amount += obj.amount;
             found = true;
           };
