@@ -133,10 +133,14 @@ function populate(main, side, dessert) {
       }
     }
   };
+  let buttondiv = document.createElement('div');
+  buttondiv.classList.add('buttonDiv');
   let finalize = document.createElement('button');
+  finalize.classList.add('finalize');
   finalize.innerHTML = "Confirm Choices";
   finalize.addEventListener('click', finalList);
-  document.querySelector('.allMeals').appendChild(finalize);
+  buttondiv.appendChild(finalize);
+  document.querySelector('body').appendChild(buttondiv);
 }
 
 function select(div, id) {
@@ -151,10 +155,11 @@ function select(div, id) {
 
 async function finalList() {
   let found;
+  document.querySelector('.buttonDiv').style.display = 'none';
   instructions.innerHTML = "Enjoy!";
   body.style.display = "none";
   document.querySelector('.results').style.display = "flex";
-  document.querySelector('.results').style.flexWrap = "wrap"
+  document.querySelector('.results').style.flexWrap = "wrap";
   document.querySelector('#date').innerHTML += ` (${curDay()})`
   for (let i = 0; i < idArray.length; i++) {
     let response = await axios.get(`${specific}${idArray[i]}?api_key=${apiKey}`)

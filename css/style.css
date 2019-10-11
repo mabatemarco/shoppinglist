@@ -249,9 +249,33 @@ small{
 
 }
 
+#dessertChoices{
+  padding: 0 0 70px 0;
+}
+
 .picked{
   border:2px solid #B31220;
   box-shadow: 8px 8px 5px #FFA366;
+}
+
+.buttonDiv{
+  background-color: #B31220;
+  width:100%;
+  height:70px;
+  position:fixed;
+  bottom:0;
+}
+
+.finalize{
+  opacity:1;
+  height:70px;
+  display:block;
+  width: 200px;
+  font-size: 1.6em;
+  display:block;
+  margin: 0 auto;
+  font-family: Oswald, sans-serif;
+  background-color: #078C26;
 }
 
 .finalrecipe{
@@ -300,7 +324,7 @@ small{
   width: 80px;
   height: 80px;
   animation: spin 2s linear infinite;
-  margin: 0 auto;
+  margin: 1em auto;
   display:none;
 }
 
