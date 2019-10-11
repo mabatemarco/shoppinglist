@@ -154,63 +154,67 @@ function select(div, id) {
 }
 
 async function finalList() {
-  let found;
-  document.querySelector('.buttonDiv').style.display = 'none';
-  instructions.innerHTML = "Enjoy!";
-  body.style.display = "none";
-  document.querySelector('.results').style.display = "flex";
-  document.querySelector('.results').style.flexWrap = "wrap";
-  document.querySelector('#date').innerHTML += ` (${curDay()})`
-  for (let i = 0; i < idArray.length; i++) {
-    let response = await axios.get(`${specific}${idArray[i]}?api_key=${apiKey}`)
-    let div = document.createElement('div');
-    div.classList.add('finalrecipe');
-    div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View Recipe</a>`;
-    document.querySelector('.finalrecipes').appendChild(div);
-    response.data.Ingredients.forEach(function (ing) {
-      let amt = ing.Quantity.toString();
-      if (amt.length > 5) {
-        amt = parseFloat(amt).toFixed(2);
-      }
-      let obj = {
-        name: ing.Name,
-        amount: amt,
-        unit: ing.Unit
-      };
-      if (ingredients.length === 0) {
-        ingredients.push(obj);
-      } else {
-        found = false;
-        for (n = 0; n < ingredients.length; n++) {
-          if (obj.name === ingredients[n].name && obj.unit === ingredients[n].unit) {
-            ingredients[n].amount += obj.amount;
-            found = true;
-          };
-        };
-        if (found === false) {
-          ingredients.push(obj)
+  if (idArray.length === 0) {
+    alert(`Click on the meal cards to select them`)
+  } else {
+    let found;
+    document.querySelector('.buttonDiv').style.display = 'none';
+    instructions.innerHTML = "Enjoy!";
+    body.style.display = "none";
+    document.querySelector('.results').style.display = "flex";
+    document.querySelector('.results').style.flexWrap = "wrap";
+    document.querySelector('#date').innerHTML += ` (${curDay()})`
+    for (let i = 0; i < idArray.length; i++) {
+      let response = await axios.get(`${specific}${idArray[i]}?api_key=${apiKey}`)
+      let div = document.createElement('div');
+      div.classList.add('finalrecipe');
+      div.innerHTML = `<img src=${response.data.PhotoUrl}><h2>${response.data.Title}</h2><a target ="_blank" href=${response.data.WebURL}>View Recipe</a>`;
+      document.querySelector('.finalrecipes').appendChild(div);
+      response.data.Ingredients.forEach(function (ing) {
+        let amt = ing.Quantity.toString();
+        if (amt.length > 5) {
+          amt = parseFloat(amt).toFixed(2);
         }
-      };
-    })
+        let obj = {
+          name: ing.Name,
+          amount: amt,
+          unit: ing.Unit
+        };
+        if (ingredients.length === 0) {
+          ingredients.push(obj);
+        } else {
+          found = false;
+          for (n = 0; n < ingredients.length; n++) {
+            if (obj.name === ingredients[n].name && obj.unit === ingredients[n].unit) {
+              ingredients[n].amount += obj.amount;
+              found = true;
+            };
+          };
+          if (found === false) {
+            ingredients.push(obj)
+          }
+        };
+      })
+    }
+    ingredients.sort(function (a, b) {
+      var keyA = a.name;
+      var keyB = b.name;
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    });
+    document.querySelector('#listLoad').style.display = "none";
+    let toBuy = document.querySelector('#toBuy');
+    ingredients.forEach(function (food) {
+      let item = document.createElement('li');
+      item.innerHTML = `${food.amount} ${food.unit} ${food.name}`;
+      toBuy.appendChild(item);
+    });
+    let saveButton = document.createElement('button');
+    saveButton.innerHTML = "Save as PDF";
+    saveButton.addEventListener('click', function () { save(ingredients) });
+    toBuy.appendChild(saveButton);
   }
-  ingredients.sort(function (a, b) {
-    var keyA = a.name;
-    var keyB = b.name;
-    if (keyA < keyB) return -1;
-    if (keyA > keyB) return 1;
-    return 0;
-  });
-  document.querySelector('#listLoad').style.display = "none";
-  let toBuy = document.querySelector('#toBuy');
-  ingredients.forEach(function (food) {
-    let item = document.createElement('li');
-    item.innerHTML = `${food.amount} ${food.unit} ${food.name}`;
-    toBuy.appendChild(item);
-  });
-  let saveButton = document.createElement('button');
-  saveButton.innerHTML = "Save as PDF";
-  saveButton.addEventListener('click', function () { save(ingredients) });
-  toBuy.appendChild(saveButton);
 };
 
 
